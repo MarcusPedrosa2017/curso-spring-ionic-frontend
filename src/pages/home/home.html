@@ -11,7 +11,12 @@
     <ion-label stacked>Senha</ion-label>
     <ion-input type="password"></ion-input>
   </ion-item>
-  <button ion-button block>Entrar</button>
+  <!--
+  estamos colocando (click) neste button, as "()" no angular significam que e um bind de evento
+  evento esse de click, que vai disparar o metodo login do controlador desta pagina que o home.ts
+  -->
+  <button ion-button block (click)="login()">Entrar</button>
 </form>
+
 <button ion-button block outline>Registrar</button>
 </ion-content>
