@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 //e necessario incluir aqui o IonicPage no import
 import { NavController, IonicPage } from 'ionic-angular';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 //decorator necessario para poder referenciar a classe pelo seu nome entre aspas 'HomePage' 
 //para fazer o Lazy load
@@ -14,8 +15,20 @@ export class HomePage {
 
   //para navegar entre paginas iremos utilizar o NavController que neste caso ja esta injetado no construtor
   //abaixo como parametro
-  constructor(public navCtrl: NavController) {
+  //foi injetado o MenuController para poder desabilitar o menu da home estando na home
+  constructor(public navCtrl: NavController, public menu: MenuController) {
 
+  }
+
+  //usando os eventos do lifecycle events, vamos usar os metodos padroes para desabilitar e menu home
+  //este metodo vai desabilitar o menu quando a home for carregada
+  ionViewWillEnter(){
+    this.menu.swipeEnable(false);
+  }
+
+  //este metodo carrega o menu novamente quando sair da home
+  ionViewDidLeave(){
+    this.menu.swipeEnable(true);
   }
 
   //criando o metodo de login
