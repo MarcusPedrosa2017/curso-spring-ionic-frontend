@@ -42,7 +42,8 @@ export class CategoriasPage {
         },
         //funcao de erro
         error => {
-          console.log(error);
+          //retirei para que o interceptor passe a logar
+          //console.log(error);
         });
     
   }
