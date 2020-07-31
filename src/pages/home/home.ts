@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, IonicPage } from 'ionic-angular';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { CredenciaisDTO } from '../../models/credenciais.dto';
+import { AuthService } from '../../services/auth.service';
 
 //decorator necessario para poder referenciar a classe pelo seu nome entre aspas 'HomePage' 
 //para fazer o Lazy load
@@ -23,7 +24,11 @@ export class HomePage {
   //para navegar entre paginas iremos utilizar o NavController que neste caso ja esta injetado no construtor
   //abaixo como parametro
   //foi injetado o MenuController para poder desabilitar o menu da home estando na home
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  //foi injetado o AuthService para poder fazer a autenticacao no backend
+  constructor(
+    public navCtrl: NavController, 
+    public menu: MenuController, 
+    public auth: AuthService) {
 
   }
 
@@ -41,14 +46,22 @@ export class HomePage {
   //criando o metodo de login
   public login(){
     
-    console.log(this.creds);
-    //vamos utilizar o NavController para ir para pagina de categorias ao fazer o login por hora
-    //para utilizar o objeto injetado e necessario usar a palavra "this"
-    //o metodo push empilha uma pagina sobre a outra
-    //this.navCtrl.push('CategoriasPage');
+    //fazemos a autenticacao no backend e logamos o header Authorization
+    this.auth.authenticate(this.creds)
+      .subscribe(response => {
+        console.log(response.headers.get('Authorization'));
+        //vamos utilizar o NavController para ir para pagina de categorias ao fazer o login por hora
+        //para utilizar o objeto injetado e necessario usar a palavra "this"
+        //o metodo push empilha uma pagina sobre a outra
+        //this.navCtrl.push('CategoriasPage');
+        //trocamos para setRoot ao inves do push para que aparece o menu e nao a seta de paginas empilhadas
+        this.navCtrl.setRoot('CategoriasPage');
+        
+    },//caso ocorra algum erro nao faz nada
+    error =>{})
 
-    //trocamos para setRoot ao inves do push para que aparece o menu e nao a seta de paginas empilhadas
-    this.navCtrl.setRoot('CategoriasPage');
+    console.log(this.creds);
+
   }
 
 }
