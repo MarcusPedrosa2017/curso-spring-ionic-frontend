@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 //e necessario incluir aqui o IonicPage no import
 import { NavController, IonicPage } from 'ionic-angular';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
+import { CredenciaisDTO } from '../../models/credenciais.dto';
 
 //decorator necessario para poder referenciar a classe pelo seu nome entre aspas 'HomePage' 
 //para fazer o Lazy load
@@ -12,6 +13,12 @@ import { MenuController } from 'ionic-angular/components/app/menu-controller';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  //objeto do login istanciado vazio
+  creds : CredenciaisDTO = {
+    email: "",
+    senha: ""
+  }
 
   //para navegar entre paginas iremos utilizar o NavController que neste caso ja esta injetado no construtor
   //abaixo como parametro
@@ -33,6 +40,8 @@ export class HomePage {
 
   //criando o metodo de login
   public login(){
+    
+    console.log(this.creds);
     //vamos utilizar o NavController para ir para pagina de categorias ao fazer o login por hora
     //para utilizar o objeto injetado e necessario usar a palavra "this"
     //o metodo push empilha uma pagina sobre a outra

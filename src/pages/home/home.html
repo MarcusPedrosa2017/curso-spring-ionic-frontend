@@ -5,11 +5,13 @@
 <form>
   <ion-item>
     <ion-label stacked>Email</ion-label>
-    <ion-input type="text"></ion-input>
+    <!--fazendo um bind misto de evento() e atributo[] com a diretiva ngModel do angular que faz o bind
+     entre o html e alguma classe do controlador, quando e feito dessa e obrigatorio o atributo name-->
+    <ion-input [(ngModel)]="creds.email" name="email" type="text"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Senha</ion-label>
-    <ion-input type="password"></ion-input>
+    <ion-input [(ngModel)]="creds.senha" name="senha" type="password"></ion-input>
   </ion-item>
   <!--
   estamos colocando (click) neste button, as "()" no angular significam que e um bind de evento
