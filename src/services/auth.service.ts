@@ -2,11 +2,13 @@ import { Injectable } from "@angular/core";
 import { CredenciaisDTO } from "../models/credenciais.dto";
 import { HttpClient } from "@angular/common/http";
 import { API_CONFIG } from "../config/api.config";
+import { LocalUser } from "../models/local_user";
+import { StorageService } from "./storage.service";
 
 @Injectable()
 export class AuthService{
 
-    constructor(public http: HttpClient){
+    constructor(public http: HttpClient, public storage: StorageService){
 
     }
 
@@ -19,5 +21,22 @@ export class AuthService{
                 observe: 'response',
                 responseType: 'text'
             });
+    }
+
+    //metodo executado com for feito login com sucesso
+    successfulLogin(authorization: String){
+        //retiando a palavra "Bearer " do token que vira na resposta
+         let tok = authorization.substring(7);
+         //set o valor no nosso objeto de usuario
+         let user : LocalUser = {
+            token: tok
+         };
+         //armazenando o usuario no Local Storage, utilizando nosso StorageService
+         this.storage.setLocalUser(user);
+    }
+
+    //metodo para remover o usuario no logout
+    logout(){
+        this.storage.setLocalUser(null);
     }
 }

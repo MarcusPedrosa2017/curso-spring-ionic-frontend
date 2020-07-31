@@ -49,7 +49,8 @@ export class HomePage {
     //fazemos a autenticacao no backend e logamos o header Authorization
     this.auth.authenticate(this.creds)
       .subscribe(response => {
-        console.log(response.headers.get('Authorization'));
+        //console.log(response.headers.get('Authorization'));
+        this.auth.successfulLogin(response.headers.get('Authorization'));
         //vamos utilizar o NavController para ir para pagina de categorias ao fazer o login por hora
         //para utilizar o objeto injetado e necessario usar a palavra "this"
         //o metodo push empilha uma pagina sobre a outra

@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { CategoriaService } from '../services/domain/categoria.service';
 import { ErrorInterceptorProvider } from '../interceptors/error-interceptor';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AuthService } from '../services/auth.service';
     //injetando o CategoriaService no escopo global, funciona como um singleton usados por todas as classes
     CategoriaService,
     ErrorInterceptorProvider,
-    AuthService
+    AuthService,
+    StorageService
   ]
 })
 export class AppModule {}
