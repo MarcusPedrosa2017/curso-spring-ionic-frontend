@@ -4,9 +4,13 @@ import { HttpClient } from "@angular/common/http";
 import { API_CONFIG } from "../config/api.config";
 import { LocalUser } from "../models/local_user";
 import { StorageService } from "./storage.service";
+import { JwtHelper } from "angular2-jwt";
 
 @Injectable()
 export class AuthService{
+
+    //instanciando o jwt helper para poder extrair o emaio do token
+    jwtHelper: JwtHelper = new JwtHelper();
 
     constructor(public http: HttpClient, public storage: StorageService){
 
@@ -29,7 +33,8 @@ export class AuthService{
          let tok = authorization.substring(7);
          //set o valor no nosso objeto de usuario
          let user : LocalUser = {
-            token: tok
+            token: tok,
+            email: this.jwtHelper.decodeToken(tok).sub
          };
          //armazenando o usuario no Local Storage, utilizando nosso StorageService
          this.storage.setLocalUser(user);
