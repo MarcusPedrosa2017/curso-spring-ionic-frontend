@@ -32,7 +32,15 @@ export class ProfilePage {
           //buscar a imagem do perfil do bucket
           this.getImageIfExists();
         },
-        error =>{});
+        error =>{
+          //caso de 403 no login manda para HomePage
+          if(error.status == 403){
+            this.navCtrl.setRoot('HomePage');
+          }
+        });
+    }else{
+      //caso de erro tbm manda para home
+      this.navCtrl.setRoot('HomePage');
     }
   }
 
