@@ -15,13 +15,15 @@ export class ClienteService{
     findByEmail(email: string) : Observable<ClienteDTO> {
 
         //por hora vamos colocar o Authorization no header na mão
-        let token = this.storage.getLocalUser().token;
-        let authHeader = new HttpHeaders({'Authorization' : 'Bearer ' + token});
+        //retirado depois que foi implementado o auth-interceptor.ts
+        //let token = this.storage.getLocalUser().token;
+        //let authHeader = new HttpHeaders({'Authorization' : 'Bearer ' + token});
 
         //fazendo request ao backend para pegar o cliente pelo email, colocando o Authorization acima
         //no Headers como argumento
-        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`, 
-        {'headers' : authHeader});
+        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
+        //retirado depois que foi implementado o auth-interceptor.ts
+        //{'headers' : authHeader});
     }
 
     //metodo para pegar a imagem do profile no bucket
