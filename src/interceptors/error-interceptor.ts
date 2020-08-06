@@ -3,11 +3,15 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";//LEMBRAR SEMPRE DE ATUALIZAR PARA "/Rx"
 import { StorageService } from "../services/storage.service";
+import { AlertController } from "ionic-angular";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor{
 
-    constructor(public storage: StorageService){        
+    constructor(
+        public storage: StorageService,
+        //colocamos o aAertController
+        public alertCtrl : AlertController){        
     }
 
     //metodo que intercepta as requisicoes
@@ -33,9 +37,17 @@ export class ErrorInterceptor implements HttpInterceptor{
 
             //tratamentos especificos
             switch(errorObj.status){
+
+                case 401:
+                this.handle401();
+                break;
+
                 case 403:
                 this.handle403();
                 break;
+
+                default:
+                this.handleDefualtError(errorObj);
             }
 
             return Observable.throw(errorObj);
@@ -46,6 +58,43 @@ export class ErrorInterceptor implements HttpInterceptor{
     //remove usuario do local storage
     handle403(){
         this.storage.setLocalUser(null);
+    }
+
+    //
+    handle401(){
+        //criando o alert
+        let alert = this.alertCtrl.create({
+            title: 'Erro 401: falha de autenticação',
+            message: 'Email ou senha incorretos',
+            //propriedade que obriga abertar no botao do alert para sair dele
+            enableBackdropDismiss: false,
+            //definicao dos botoes do alert
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+        //apresenta o alert
+        alert.present();
+    }
+
+    handleDefualtError(errorObj){
+        //criando o alert
+        let alert = this.alertCtrl.create({
+            title: 'Erro ' + errorObj.status +  ': ' + errorObj.error,
+            message: errorObj.message,
+            //propriedade que obriga abertar no botao do alert para sair dele
+            enableBackdropDismiss: false,
+            //definicao dos botoes do alert
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+        //apresenta o alert
+        alert.present();
     }
 }
 
