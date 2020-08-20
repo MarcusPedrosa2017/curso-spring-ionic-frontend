@@ -27,6 +27,19 @@ export class AuthService{
             });
     }
 
+    refreshToken(){
+        //lembrando que o token e colocado no request pelo interceptor
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/refresh_token`, 
+            {},
+            {//aqui colocamos o response que vira do servico de autenticao do backend e dizemos que sera um texto
+             //para que o framework nao tente fazer um parse para JSON, pois a resposta e no content   
+                observe: 'response',
+                responseType: 'text'
+            });
+    }
+
+
     //metodo executado com for feito login com sucesso
     successfulLogin(authorization: String){
         //retiando a palavra "Bearer " do token que vira na resposta

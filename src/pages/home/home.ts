@@ -43,6 +43,25 @@ export class HomePage {
     this.menu.swipeEnable(true);
   }
 
+  //este metodo carrega 
+  ionViewDidEnter(){
+    this.auth.refreshToken()
+      .subscribe(response => {
+        //console.log(response.headers.get('Authorization'));
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        //vamos utilizar o NavController para ir para pagina de categorias ao fazer o login por hora
+        //para utilizar o objeto injetado e necessario usar a palavra "this"
+        //o metodo push empilha uma pagina sobre a outra
+        //this.navCtrl.push('CategoriasPage');
+        //trocamos para setRoot ao inves do push para que aparece o menu e nao a seta de paginas empilhadas
+        this.navCtrl.setRoot('CategoriasPage');
+        
+    },//caso ocorra algum erro nao faz nada
+    error =>{})
+  }
+
+  
+
   //criando o metodo de login
   public login(){
     
